@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import { LogoutOutlined } from '@ant-design/icons';
-import {auth} from '../components/firebase';
+import {auth} from '../Views/firebase';
 
 const NavBar = () => {
     const handleLogout = () => {

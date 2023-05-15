@@ -1,12 +1,12 @@
 import React from "react";
-import CrudApp from "./components/CrudApp";
+import CrudApp from "./Views/CrudApp";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js'
-import Login from "../src/components/Login";
-import NavBar from '../src/components/navBar';
+import Login from "../src/Views/Login";
+import NavBar from '../src/Views/navBar';
 
 import { useState, useEffect } from 'react';
-import { auth } from '../src/components/firebase';
+import { auth } from '../src/Views/firebase';
 
 //rutas
 import { BrowserRouter, Route, Routes } from 'react-router-dom';

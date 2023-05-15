@@ -1,53 +1,58 @@
-import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '../components/firebase';
+import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '../Views/firebase';
 import React from 'react';
 import { Form, Input, Button } from 'antd';
 import { useState } from 'react';
+
+//IMportar las funciones del controlador de usuarios
+import { createUser, logIn } from '../Controllers/userController.js';
+
 
 const Login = () => {
     const [toggleButton, setToggleButton] = useState(true);
     function handleChange() {
         setToggleButton(!toggleButton);
     }
+
     async function createUserAndSaveData(values) {
         console.log('Received values of form: ', values);
+
+        //Ya tengo mis datos
         let email = values.email;
         let password = values.password;
+        
 
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // El usuario se creó exitosamente
-                const user = userCredential.user;
-                console.log('Usuario creado:', user);
-                window.location.replace('/home');
-            })
-            .catch((error) => {
-                // Hubo un error al crear el usuario
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.error('Error al crear usuario:', errorCode, errorMessage);
-            });
+        let res = null;
 
+        try{
+            //Ahora los mando al controlador
+            res = await createUser({email, password});
+            console.log("Usuario creado exitosamente: ", res);
+            window.location.replace('/home');
+        }
+        catch(error){
+            console.log("ERROR: ", error);
+            console.alert("ERROR");
+            //window.location.reload();
+        }
     }
 
-    const signIn = (values) => {
+    const signIn = async (values) => {
         let email = values.email;
         let password = values.password;
 
-        return signInWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            // Inicio de sesión exitoso
-            const user = userCredential.user;
-            console.log('Usuario autenticado:', user);
+        let res = null;
+
+        try{
+            //Ahora los mando al controlador
+            res = await logIn({email, password});
+            console.log("Usuario creado exitosamente: ", res);
             window.location.replace('/home');
-            return user;
-          })
-          .catch((error) => {
-            // Error al iniciar sesión
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.error('Error al autenticar:', errorCode, errorMessage);
-            throw error;
-          });
+        }
+        catch(error){
+            console.log("ERROR: ", error);
+            console.alert("ERROR");
+            //window.location.reload();
+        }
       };
 
 
