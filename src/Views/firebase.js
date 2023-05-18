@@ -1,9 +1,12 @@
 
 
+
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, createUserWithEmailAndPassword   } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut} from "firebase/auth";
 
 //importamos el router para que se redireccione automáticamente cuando el usuario no está logueado
+
+
 
 
 // TODO: Replace the following with your app's Firebase project configuration
@@ -22,9 +25,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-
 // Initialize Firebase Authentication and get a reference to the service
-const auth = getAuth(app);
+const authFirebase = getAuth(app);
+
 
 // onAuthStateChanged(auth, async (user) => {
 //   if (user) {
@@ -43,4 +46,4 @@ const auth = getAuth(app);
 // });
 
 
-export {auth, app, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword  };
+export {authFirebase, app, signInWithEmailAndPassword, signOut};
