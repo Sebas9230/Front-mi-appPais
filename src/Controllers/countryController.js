@@ -1,6 +1,6 @@
 
 
-import { createCountryModel, deleteCountryById, getAllCountries, getCountry, updateCountry } from "../Models/countryModel";
+import { getPoverties, createCountryModel, deleteCountryById, getAllCountries, getCountry, updateCountry } from "../Models/countryModel";
 
 const createACountry = async (countryData) => {
     try {
@@ -29,6 +29,39 @@ const getCountries = async () => {
         }
 
         return countries;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+
+}
+
+const getCountryFunc = (countries, idToFind) => {
+    return countries.find((country) => country.id === idToFind);
+};
+
+const setCountryInfo = (poverties, countries) => {
+    const updatedPoverties = poverties.map((poverty) => {
+        const countryData = getCountryFunc(countries, poverty.pais);
+        return { ...poverty, countryData };
+    });
+    return updatedPoverties;
+};
+
+const getAllPoverties = async () => {
+    try {
+        const poverties = await getPoverties();
+
+        const countries = await getCountries();
+
+        
+
+        if (!poverties) {
+            console.error("Error getting poverties");
+            return false;
+        }
+
+        return setCountryInfo(poverties,countries);
     } catch (error) {
         console.error(error);
         return false;
@@ -73,10 +106,10 @@ const updateCountryById = async (id, data) => {
             throw new Error("¡Unknow Error!");
         }
         return true;
-    }catch(error){
+    } catch (error) {
         return false;
     }
-    
+
 }
 
-export { createACountry, getCountries, getCountryById, deleteCountry, updateCountryById };
+export { createACountry, getCountries, getCountryById, deleteCountry, updateCountryById, getAllPoverties };

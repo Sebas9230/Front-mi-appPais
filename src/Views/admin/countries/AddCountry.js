@@ -17,14 +17,19 @@ const AddCountry = () => {
     const [generosidad, setGenerosidad] = useState('');
     const [esperanzaVida, setEsperanzaVida] = useState('');
     const [corrupcion, setCorrupcion] = useState('');
+    //Para la pobreza
+    const [dimensionPais, setDimensionPais] = useState('');
+    const [poblacionMetroCuadrado, setPoblacionMetroCuadrado] = useState('');
+
+
 
     const [countries, setCountries] = useState([]);
 
     const addPais = () => {
         console.log("País a crear: ", pais, pib, esperanzaVida, libertadDecisiones, generosidad, corrupcion);
-
+        console.log("Pobreza a crear: dimensionPais: ", dimensionPais, "poblacionMetroCuadrado: ", poblacionMetroCuadrado);
         const data = {
-            pais, pib, esperanzaVida, libertadDecisiones, generosidad, corrupcion
+            pais, pib, esperanzaVida, libertadDecisiones, generosidad, corrupcion, poblacionMetroCuadrado, dimensionPais
         }
 
         const res = createACountry(data);
@@ -61,6 +66,12 @@ const AddCountry = () => {
 
                     <label for="genero">Corrupción</label>
                     <input onChange={(event) => setCorrupcion(event.target.value)} placeholder="Escriba el nivel de corrupción..." name="fgenero" type="text" id="tabla" />
+
+                    <label for="dimensionPais">Dimension Pais</label>
+                    <input onChange={(event) => setDimensionPais(event.target.value)} placeholder="Escriba la dimensión del país..." name="fdimensionpais" type="text" id="tabla" />
+
+                    <label for="poblacionMetroCuadrado">Poblacion Metro Cuadrado</label>
+                    <input onChange={(event) => setPoblacionMetroCuadrado(event.target.value)} placeholder="Escriba la Poblacion Metro Cuadrado..." name="fpoblacionmetrocuadrado" type="text" id="tabla" />
 
                 </div>
                 <button name="registro" id="button" onClick={addPais}> ¡Agregar País! </button>

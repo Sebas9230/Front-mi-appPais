@@ -13,9 +13,11 @@ const RUTA_SERVIDOR = `${process.env.REACT_APP_RUTA_API}`;
 //CREATE
 
 async function createCountryModel(countryData) {
-    const {pais, pib, esperanzaVida, libertadDecisiones, generosidad, corrupcion} = countryData;
+    const { pais, pib, esperanzaVida, libertadDecisiones, generosidad, corrupcion, poblacionMetroCuadrado, dimensionPais } = countryData;
+
     try {
         console.log("COUNTRY EN MODEL: ", pais, pib, esperanzaVida, libertadDecisiones, generosidad, corrupcion);
+        console.log("POBREZA EN MODEL: ", poblacionMetroCuadrado, dimensionPais);
         const response = await fetch(`${RUTA_SERVIDOR}/countries/create`, {
 
             method: 'POST',
@@ -26,7 +28,7 @@ async function createCountryModel(countryData) {
 
             },
 
-            body: JSON.stringify({ pais, pib, esperanzaVida, libertadDecisiones, generosidad, corrupcion })
+            body: JSON.stringify({ pais, pib, esperanzaVida, libertadDecisiones, generosidad, corrupcion, poblacionMetroCuadrado, dimensionPais })
 
         });
 
@@ -54,6 +56,30 @@ async function createCountryModel(countryData) {
 
 }
 
+
+async function getPoverties() {
+    try {
+
+        const response = await fetch(`${RUTA_SERVIDOR}/countries/poverty`);
+
+        if (!response.ok) {
+
+            throw new Error('Error fetching poverties');
+
+        }
+
+
+        const data = await response.json();
+
+        return data;
+
+    } catch (error) {
+
+        throw error;
+
+    }
+
+}
 
 
 async function deleteCountryById(id) {
@@ -184,4 +210,4 @@ const updateCountry = async (id, data) => {
 
 
 
-export { createCountryModel, deleteCountryById, getAllCountries, getCountry, updateCountry };
+export { createCountryModel, deleteCountryById, getAllCountries, getCountry, updateCountry, getPoverties };

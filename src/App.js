@@ -14,9 +14,20 @@ import { authFirebase } from '../src/Views/firebase';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 
+//admin
 import HomeAdmin from './Views/admin/HomeAdmin';
 import ListCountries from './Views/admin/countries/ListCountries';
-import EditCountry  from "./Views/admin/countries/EditCountry";
+import EditCountry from "./Views/admin/countries/EditCountry";
+
+//users
+import Home from './Views/user/Home';
+
+//both
+import TableCountries from './Views/both/TableCountries';
+import StadisticCountry from './Views/both/StadisticCountry';
+import CompareCountries from './Views/both/CompareCountries';
+import TablePoverty from './Views/both/TablePoverty';
+import TableTest from './Views/both/TableTest';
 
 
 
@@ -35,7 +46,7 @@ function App() {
       if (!user) {
         console.log("Usuario no autenticado");
         setRedirectToHome(true);
-      }else{
+      } else {
         setRedirectToHome(false);
       }
     });
@@ -50,23 +61,30 @@ function App() {
         <Routes>
 
           <Route path="/" element={<Login />} />
-          <Route path="/nav" element={<NavBar/>} />
+          <Route path="/nav" element={<NavBar />} />
           {/* Para usuarios administradores */}
-          <Route path="/homeAdmin" element={<HomeAdmin/>} />
-          <Route path="/users/" element={<CrudApp/>} />
-          <Route path="/countries/" element={<ListCountries/>} />
-          <Route path="/countries/new" element={<AddCountry/>} />
-          <Route path="/countries/edit/:id" element={<EditCountry/>} />
+          <Route path="/homeAdmin" element={<HomeAdmin />} />
+          <Route path="/users/" element={<CrudApp />} />
+          <Route path="/countries/" element={<ListCountries />} />
+          <Route path="/countries/new" element={<AddCountry />} />
+          <Route path="/countries/edit/:id" element={<EditCountry />} />
           {/* Para usuarios normales */}
-          <Route path="/home" element={<home/>} />
+          <Route path="/home" element={<Home />} />
           {/* <Route path="blogs" element={<Blogs />} />
             <Route path="contact" element={<Contact />} />
             <Route path="*" element={<NoPage />} /> */}
+          
+          {/* Para los 2 usuarios */}
+          <Route path="/listcountries/" element={<TableCountries />} />
+          <Route path="/stadisticcountry/" element={<StadisticCountry />} />
+          <Route path="/comparecountries/" element={<CompareCountries />} />
+          <Route path="/tablepoverty/" element={<TablePoverty />} />
+          <Route path="/tabletest/" element={<TableTest />} />
 
         </Routes>
         {redirectToHome && <Navigate to="/" />}
       </BrowserRouter>
-      
+
     </>
 
 

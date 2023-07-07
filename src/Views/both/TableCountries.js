@@ -6,27 +6,44 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 
 //Funciones de countryController
-import { getCountries } from '../../../Controllers/countryController';
+import { getCountries } from '../../Controllers/countryController';
 
-import { deleteCountry } from '../../../Controllers/countryController';
+import { deleteCountry } from '../../Controllers/countryController';
+
+//Funcion para calcular indice de felicidad y su logo
+import { calcularNivelFelicidad } from './CalcularFelicidad';
+import { calcularLogoFelicidad } from './CalcularLogoFelicidad';
 
 const ListCountries = () => {
     const navigate = useNavigate()
     const [countries, setCountries] = useState([]);
 
     const goToCreateCountry = () =>{
-        navigate("/countries/new");
+        navigate("/listcountries/new");
     }
 
     const goToEditCountry = (id)=>{
-        navigate(`/countries/edit/${id}`);
+        navigate(`/listcountries/edit/${id}`);
     }
 
     // Función auxiliar para cargar los datos de la API
     const loadCountries = async () => {
+        // try {
+        //     const response = await getCountries();
+        //     setCountries(response);
+        // } catch (error) {
+        //     console.error('Error al cargar países desde interfaz:', error);
+        // }
+
         try {
             const response = await getCountries();
-            setCountries(response);
+            const countriesWithIndice = response.map((country) => ({
+                ...country,
+                indiceFelicidad: calcularNivelFelicidad(country),
+                //felicidadLogo: calcularLogoFelicidad(country),
+            }));
+            setCountries(countriesWithIndice);
+
         } catch (error) {
             console.error('Error al cargar países desde interfaz:', error);
         }
@@ -36,10 +53,11 @@ const ListCountries = () => {
         const res = deleteCountry(id);
         if(res){
             console.log('Country eliminada correctamente.');
-            navigate('/countries/');
+            navigate('/listcountries/');
         }
     }
-    
+
+
     const listCountries = () => {
         return countries.map(country => (
             <tr key={country.id}>
@@ -50,9 +68,10 @@ const ListCountries = () => {
                 <td>{country.libertadDecisiones}</td>
                 <td>{country.generosidad}</td>
                 <td>{country.corrupcion}</td>
-                <td>{country.valor}</td>
-                <td><button onClick={() => goToEditCountry(country.id) }>Editar</button></td>
-                <td><button onClick={() => removeCountry(country.id) }>Eliminar</button></td>
+                {/* <td>{country.valor}</td> */}
+                <td>{country.indiceFelicidad.valoracion}</td>
+                {/* <td>{<td>{country.felicidadLogo}</td> */}
+                <td>{calcularLogoFelicidad(country)}</td>
             </tr>
         ));
     };
@@ -68,14 +87,14 @@ const ListCountries = () => {
 
                 <div class="masthead">
 
-                    <input type="text" id="buscar" onkeyup="buscar()" placeholder="Buscar en tabla" title="Empieza a escribir para buscar" />
+                    {/* <input type="text" id="buscar" onkeyup="buscar()" placeholder="Buscar en tabla" title="Empieza a escribir para buscar" /> */}
 
                     <div class="table-responsive">
                         <table class="table" id="tabla" data-sort="table">
                             <thead>
-                                <tr>
+                                {/* <tr>
                                     <th><button onClick={goToCreateCountry}>Crear</button></th>
-                                </tr>
+                                </tr> */}
                                 <tr>
                                     <th>Item</th>
                                     <th>País</th>
@@ -84,6 +103,8 @@ const ListCountries = () => {
                                     <th>Libertad de decisiones</th>
                                     <th>Generosidad </th>
                                     <th>Corrupción</th>
+                                    <th>Índice de Felicidad</th>
+                                    <th>Representación gráfica</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -93,16 +114,9 @@ const ListCountries = () => {
                     </div>
                 </div>
             </div>
-
-
         </>
-
     );
 }
 
 
 export default ListCountries;
-
-
-
-
